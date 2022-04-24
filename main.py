@@ -74,9 +74,24 @@ def first_move():
 
 # check if space is available to place marker
 def space_open(board, position):
+    return board[position] != ' '
 
-   return board[position] != ' '
 
+# check if all spaces are full of markers
+def check_full_board(board):
+    for space in range(1,10):
+        if space_open(board, space):
+            return False
+        return True
+
+
+# ask for player choice
+def player_choice(board):
+    choice = 0
+
+    while choice not in [1,2,3,4,5,6,7,8,9] or not space_open(board, choice):
+        choice = int(input('Where would you like to place your marker (1-9)?: '))
+    return choice
 
 
 # run the game
