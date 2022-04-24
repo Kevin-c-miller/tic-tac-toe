@@ -10,7 +10,7 @@ import random
 test_board = ['#','X','O','X','O','X','O','X','O','X']
 
 # game board outline and initial positions
-game_board = ['#','1','2','3','4','5','6','7','8','9']
+game_board = ['#',' ',' ',' ',' ',' ',' ',' ',' ',' ']
 
 # display board
 def display_board(board):
@@ -64,13 +64,19 @@ def check_for_winner(board, mark):
     )
 
 
-
 # randomly selecting which player makes the first move
 def first_move():
     if random.randint(0, 1) == 0:
         return 'Player 2'
     else:
         return 'Player 1'
+
+
+# check if space is available to place marker
+def space_open(board, position):
+
+   return board[position] != ' '
+
 
 
 # run the game
