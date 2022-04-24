@@ -4,6 +4,8 @@
 #  - the board should be printed out every time a player makes a move
 #  - You should be able to accept input of the player position and then place a symbol on the board
 
+# test board for testing
+test_board = ['#','X','O','X','O','X','O','X','O','X']
 
 # game board outline and initial positions
 game_board = ['#','1','2','3','4','5','6','7','8','9']
@@ -21,19 +23,23 @@ def display_board(board):
 
 # get player_input
 def player_input():
-    X_or_O = ''
+    marker = ''
 
     # check if X or O is assigned
-    while not (X_or_O == 'X' or X_or_O == 'O'):
+    while (marker != 'X' or marker != 'O'):
     # start by asking player #1 to choose X or O
-        X_or_O = input("Player #1, Do you want to be 'X' or 'O'?: ").upper()
+        marker = input("Player #1, Do you want to be 'X' or 'O'?: ").upper()
 
-    # print(X_or_O)
+    # assign that chosen marker to  p1
+    p1 = marker
 
-    if X_or_O == 'X':
-        return ('X', 'O')
+    # assign p2 the opposite of p1
+    if p1 == 'X':
+        p2 = 'O'
     else:
-        return ('O', 'X')
+        p2 = 'X'
+    # return tuple with (p1, p2)
+    return(p1, p2)
 
 
 # place marker in spot chosen by user
@@ -41,8 +47,21 @@ def place_marker(board, marker, position):
     board[position] = marker
 
 
-place_marker(game_board, '$', 8)
-display_board(game_board)
+# check if latest marker placed won the game
+def check_for_winner(board, mark):
+    
+    return (
+    (board[7] == mark and board[8] == mark and board[9] == mark) or # across top
+    (board[4] == mark and board[5] == mark and board[6] == mark) or # across middle
+    (board[1] == mark and board[2] == mark and board[3] == mark) or # across bottom
+    (board[7] == mark and board[4] == mark and board[1] == mark) or # left side down
+    (board[8] == mark and board[5] == mark and board[2] == mark) or # middle down
+    (board[9] == mark and board[6] == mark and board[3] == mark) or # right side down
+    (board[7] == mark and board[5] == mark and board[3] == mark) or # diagonal
+    (board[9] == mark and board[5] == mark and board[1] == mark) # diagonal
+    )
+
+check_for_winner(test_board,'X')
 
 # run the game
 def play_game():
