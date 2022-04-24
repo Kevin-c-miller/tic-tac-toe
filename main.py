@@ -4,6 +4,8 @@
 #  - the board should be printed out every time a player makes a move
 #  - You should be able to accept input of the player position and then place a symbol on the board
 
+import random
+
 # test board for testing
 test_board = ['#','X','O','X','O','X','O','X','O','X']
 
@@ -58,10 +60,18 @@ def check_for_winner(board, mark):
     (board[8] == mark and board[5] == mark and board[2] == mark) or # middle down
     (board[9] == mark and board[6] == mark and board[3] == mark) or # right side down
     (board[7] == mark and board[5] == mark and board[3] == mark) or # diagonal
-    (board[9] == mark and board[5] == mark and board[1] == mark) # diagonal
+    (board[9] == mark and board[5] == mark and board[1] == mark)    # diagonal
     )
 
-check_for_winner(test_board,'X')
+
+
+# randomly selecting which player makes the first move
+def first_move():
+    if random.randint(0, 1) == 0:
+        return 'Player 2'
+    else:
+        return 'Player 1'
+
 
 # run the game
 def play_game():
