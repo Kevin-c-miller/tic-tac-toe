@@ -16,7 +16,7 @@ def player_input():
     marker = ''
 
     # check if X or O is assigned
-    while (marker != 'X' or marker != 'O'):
+    while not (marker == 'X' or marker == 'O'):
     # start by asking player #1 to choose X or O
         marker = input("Player #1, Do you want to be 'X' or 'O'?: ").upper()
 
@@ -62,42 +62,112 @@ def first_move():
 
 # check if space is available to place marker
 def space_open(board, position):
-    return board[position] != ' '
+    return board[position] == ' '
 
 
 # check if all spaces are full of markers
 def check_full_board(board):
-    for space in range(1,10):
-        if space_open(board, space):
+    for i in range(1,10):
+        if space_open(board, i):
             return False
-        return True
+    # board is full if returned True
+    return True
+
 
 
 # ask for player choice
-def player_choice(board):
-    choice = 0
+def player_choice(game_board):
+    position = 0
 
-    while choice not in [1,2,3,4,5,6,7,8,9] or not space_open(board, choice):
-        choice = int(input('Where would you like to place your next marker (1-9)?: '))
-    return choice
+    while position not in range(1,10) or not space_open(game_board, position):
+        position = int(input('Where would you like to place your next marker (1-9)?: '))
+        if position in range(1,10):
+            break
+    
+    return position
+
 
 
 # ask if user wants to play again or not
 def replay():
     return input("Do you wish to play again ('yes' or 'no')? ").lower().startswith('y')
 
+# play the game
+def start_game():
+    print('Welcome to Tic Tac Toe!')
 
-# run the game
-def play_game():
-    print('Welcome to Tic-Tac-Toe')
+    while True:
+        # Reset the board
+        game_board = [' '] * 10
+        player1_marker, player2_marker = player_input()
+        # randomly checking first move
+        turn = first_move()
+        print(f'{turn} will make the first move')
+        
+        # game start prompt
+        play_game = input('Are you ready to play? Enter Yes or No.')
+        
+        if play_game.lower()[0] == 'y':
+            game_on = True
+        else:
+            game_on = False
 
-    # reset game board
-    game_board = [' '] * 10
+        while game_on:
+            if turn == 'Player 1':
+                # Player1's turn.
+                
+                # show board
+                display_board(game_board)
+                # get player choice
+                position = player_choice(game_board)
+                # place marker where player chose 
+                place_marker(game_board, player1_marker, position)
 
-    player1_marker, player2_marker = player_input()
-    turn = first_move()
-    print(f'{turn} will make the first move')
-    display_board(game_board)
-    player_input()
+                # check if there is a winner based on last move
+                if check_for_winner(game_board, player1_marker):
+                    # display board
+                    display_board(game_board)
+                    # if player won - show message
+                    print('Congratulations! You have won the game!')
+                    game_on = False
+                else:
+                    # check if all spaces are filled
+                    if check_full_board(game_board):
+                        display_board(game_board)
+                        # tie message
+                        print('The game is a draw!')
+                        break
+                    else:
+                        turn = 'Player 2'
 
-# play_game()
+            else:
+                # Player2's turn.
+                
+                # show board
+                display_board(game_board)
+                # player choice
+                position = player_choice(game_board)
+                # place player choice 
+                place_marker(game_board, player2_marker, position)
+
+                # check for winner
+                if check_for_winner(game_board, player2_marker):
+                    # display board
+                    display_board(game_board)
+                    # winning message
+                    print('Player 2 has won!')
+                    game_on = False
+                else:
+                    # check if all spaces filled or not
+                    if check_full_board(game_board):
+                        display_board(game_board)
+                        # draw message
+                        print('The game is a draw!')
+                        break
+                    else:
+                        turn = 'Player 1'
+        # replay message
+        if not replay():
+            break
+
+start_game()
