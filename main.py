@@ -1,16 +1,4 @@
-# tic tac toe game 
-
-#  - 2 players should be able to play the game (both sitting at the same computer)
-#  - the board should be printed out every time a player makes a move
-#  - You should be able to accept input of the player position and then place a symbol on the board
-
 import random
-
-# test board for testing
-test_board = ['#','X','O','X','O','X','O','X','O','X']
-
-# game board outline and initial positions
-game_board = ['#',' ',' ',' ',' ',' ',' ',' ',' ',' ']
 
 # display board
 def display_board(board):
@@ -90,23 +78,26 @@ def player_choice(board):
     choice = 0
 
     while choice not in [1,2,3,4,5,6,7,8,9] or not space_open(board, choice):
-        choice = int(input('Where would you like to place your marker (1-9)?: '))
+        choice = int(input('Where would you like to place your next marker (1-9)?: '))
     return choice
-
-
-# run the game
-def play_game():
-    display_board(game_board)
-    player_input()
-
-# play_game()
 
 
 # ask if user wants to play again or not
 def replay():
-    new_game = input("Do you wish to play again ('Y' or 'N')? ").upper()
+    return input("Do you wish to play again ('yes' or 'no')? ").lower().startswith('y')
 
-    if(new_game == 'Y'):
-        play_game()
-    else:
-        print('Thanks for playing!')
+
+# run the game
+def play_game():
+    print('Welcome to Tic-Tac-Toe')
+
+    # reset game board
+    game_board = [' '] * 10
+
+    player1_marker, player2_marker = player_input()
+    turn = first_move()
+    print(f'{turn} will make the first move')
+    display_board(game_board)
+    player_input()
+
+# play_game()
