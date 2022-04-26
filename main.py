@@ -63,6 +63,7 @@ def first_move():
 # check if space is available to place marker
 def space_open(board, position):
     return board[position] == ' '
+    # addc check if spot taken by the other player
 
 
 # check if all spaces are full of markers
